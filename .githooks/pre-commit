@@ -1,0 +1,13 @@
+#!/bin/sh
+
+echo "Ejecutando tests antes del commit..."
+
+py -m pytest -v
+
+if [ $? -ne 0 ]; then
+    echo "Los tests han fallado. Commit cancelado."
+    exit 1
+fi
+
+echo "Tests correctos. Continuando con el commit."
+exit 0
