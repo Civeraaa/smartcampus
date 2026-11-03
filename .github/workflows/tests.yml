@@ -1,4 +1,3 @@
-
 name: SmartCampus CI
 
 on:
@@ -42,3 +41,24 @@ jobs:
 
       - name: Construir imagen Docker
         run: docker build -t smartcampus:latest .
+
+  deploy:
+    runs-on: [self-hosted, Windows, X64]
+    needs: docker
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+
+    steps:
+      - name: Descargar repositorio
+        uses: actions/checkout@v4
+
+      - name: Crear archivo .env
+        shell: powershell
+        env:
+          APP_ENV: ${{ secrets.APP_ENV }}
+        run: |
+          "APP_ENV=$env:APP_ENV" | Out-File -FilePath .env -Encoding ascii
+
+      - name: Desplegar aplicación
+        shell: powershell
+        run: |
+          docker compose up -d --build
