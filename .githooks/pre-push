@@ -1,0 +1,13 @@
+#!/bin/sh
+
+echo "Ejecutando tests antes del push..."
+
+py -m pytest -v
+
+if [ $? -ne 0 ]; then
+    echo "Los tests han fallado. Push cancelado."
+    exit 1
+fi
+
+echo "Tests correctos. Continuando con el push."
+exit 0
