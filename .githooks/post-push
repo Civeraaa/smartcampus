@@ -1,0 +1,5 @@
+#!/bin/sh
+
+echo "Push realizado correctamente."
+echo "Último commit enviado:"
+git log -1 --oneline
