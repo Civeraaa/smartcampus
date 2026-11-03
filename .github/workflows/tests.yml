@@ -1,3 +1,4 @@
+
 name: SmartCampus CI
 
 on:
@@ -30,3 +31,14 @@ jobs:
 
       - name: Ejecutar tests
         run: python -m pytest -v
+
+  docker:
+    runs-on: ubuntu-latest
+    needs: tests
+
+    steps:
+      - name: Descargar repositorio
+        uses: actions/checkout@v4
+
+      - name: Construir imagen Docker
+        run: docker build -t smartcampus:latest .
